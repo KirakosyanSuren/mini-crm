@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\Ticket;
 use App\Repositories\Interfaces\TicketRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\ValidationException;
 
 class TicketService
@@ -14,21 +15,26 @@ class TicketService
         protected TicketRepositoryInterface $ticketRepository
     ) {}
 
+    public function getAll(array $filters): LengthAwarePaginator
+    {
+        return $this->ticketRepository->getAll($filters);
+    }
+
     public function store(
-        array $data,
+        array  $data,
         ?array $files = null
     ): Ticket
     {
-       $exists = Ticket::query()
-        ->today()
-        ->byCustomer($data['email'], $data['phone'] ?? null)
-        ->exists();
+        $exists = Ticket::query()
+            ->today()
+            ->byCustomer($data['email'], $data['phone'] ?? null)
+            ->exists();
 
-//        if ($exists) {
-//            throw ValidationException::withMessages([
-//                'contact' => 'You have already submitted your feedback today.'
-//            ]);
-//        }
+        if ($exists) {
+            throw ValidationException::withMessages([
+                'contact' => 'You have already submitted your feedback today.'
+            ]);
+        }
 
         $ticket = $this->ticketRepository->store($data);
 
@@ -41,6 +47,16 @@ class TicketService
         }
 
         return $ticket;
+    }
+
+    public function getById(int $id)
+    {
+        return $this->ticketRepository->getById($id);
+    }
+
+    public function updateStatus(Ticket $ticket, string $status): Ticket
+    {
+        return $this->ticketRepository->updateStatus($ticket, $status);
     }
 
 }

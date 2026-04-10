@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TicketController;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::post('/tickets', [TicketController::class, 'store']);
+
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+
 });
 
-Route::post('/tickets', [TicketController::class, 'store']);
