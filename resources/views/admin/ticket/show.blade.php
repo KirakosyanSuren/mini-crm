@@ -4,17 +4,6 @@
     <meta charset="UTF-8">
     <title>View Ticket</title>
     <link rel="stylesheet" href="{{ asset('assets/styles/adminTicketIndex.css') }}">
-
-    <style>
-        /* STATUS */
-        .status {
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-    </style>
-
 </head>
 <body>
 
@@ -23,12 +12,10 @@
 
     <div class="card">
 
-        <!-- BACK -->
         <div style="margin-bottom: 20px;">
             <a href="{{ route('admin.ticket.index') }}" class="btn">← Back</a>
         </div>
 
-        <!-- CUSTOMER INFO -->
         <h3>Customer Info</h3>
         <table>
             <tr>
@@ -47,7 +34,6 @@
 
         <br>
 
-        <!-- TICKET INFO -->
         <h3>Ticket Info</h3>
         <table>
             <tr>
@@ -81,6 +67,21 @@
             </tr>
         </table>
 
+        <h3>Files</h3>
+
+        @if($ticket->getMedia('tickets')->count())
+            <ul>
+                @foreach($ticket->getMedia('tickets') as $media)
+                    <li>
+                        <a href="{{ $media->getUrl() }}" target="_blank">
+                            {{ $media->file_name }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            <p>No files uploaded</p>
+        @endif
     </div>
 </div>
 

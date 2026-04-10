@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\Ticket;
 use App\Repositories\Interfaces\TicketRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\ValidationException;
 
@@ -49,7 +50,7 @@ class TicketService
         return $ticket;
     }
 
-    public function getById(int $id)
+    public function getById(int $id): Ticket
     {
         return $this->ticketRepository->getById($id);
     }
@@ -57,6 +58,15 @@ class TicketService
     public function updateStatus(Ticket $ticket, string $status): Ticket
     {
         return $this->ticketRepository->updateStatus($ticket, $status);
+    }
+
+    public function getStatistics(): array
+    {
+        return [
+            'day' => $this->ticketRepository->getStatistics(Carbon::now()->subDay()),
+            'week' => $this->ticketRepository->getStatistics(Carbon::now()->subWeek()),
+            'month' => $this->ticketRepository->getStatistics(Carbon::now()->subMonth()),
+        ];
     }
 
 }

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Customer;
 use App\Models\Ticket;
 use App\Repositories\Interfaces\TicketRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TicketRepository implements TicketRepositoryInterface
@@ -72,5 +73,12 @@ class TicketRepository implements TicketRepositoryInterface
         ]);
 
         return $ticket;
+    }
+
+    public function getStatistics(Carbon $date): int
+    {
+        return Ticket::query()
+            ->statisticPeriod($date)
+            ->count();
     }
 }

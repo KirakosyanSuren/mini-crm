@@ -151,3 +151,10 @@ tr:hover {
     color: #aaa;
     pointer-events: none;
 }
+
+.status {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}

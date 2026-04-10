@@ -8,6 +8,11 @@
 <body>
 
 <div class="container">
+    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+        @csrf
+        <button type="submit" class="btn logout-btn">Logout</button>
+    </form>
+
     <h1>Tickets</h1>
 
     <div class="card">

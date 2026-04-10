@@ -45,4 +45,9 @@ class Ticket extends Model implements HasMedia
                 ->orWhere('phone', $phone);
         });
     }
+
+    public function scopeStatisticPeriod(Builder $query, Carbon $date): Builder
+    {
+        return $query->where('created_at', '>=', $date);
+    }
 }
