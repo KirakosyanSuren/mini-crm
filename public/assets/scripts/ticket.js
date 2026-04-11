@@ -9,7 +9,6 @@ form.addEventListener('submit', async (e) => {
     });
 
     const formData = new FormData(form);
-
     try {
         const response = await fetch('/api/tickets', {
             method: 'POST',
@@ -26,6 +25,7 @@ form.addEventListener('submit', async (e) => {
             if (data.errors) {
                 if(data.errors.contact !== undefined) {
                     alert.classList.add('warning')
+                    alert.style.display = 'flex'
                     alert.innerText = data.errors.contact[0]
                 }
 
@@ -42,10 +42,12 @@ form.addEventListener('submit', async (e) => {
 
         // form.reset();
         alert.classList.remove('warning')
+        alert.style.display = 'flex'
         alert.innerText = data.message;
 
     } catch (err) {
         alert.classList.add('warning')
+        alert.style.display = 'flex'
         alert.innerText =`Server Error: ${err}`;
     }
 });
